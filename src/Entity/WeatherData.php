@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\WeatherDataRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: WeatherDataRepository::class)]
 class WeatherData
@@ -16,18 +17,26 @@ class WeatherData
 
     #[ORM\ManyToOne(inversedBy: 'weatherData')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?City $city = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 3, scale: '0')]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'numeric')]
     private ?string $celsius = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'numeric')]
     private ?string $windSpeed = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
+    #[Assert\Type(type: 'integer')]
     private ?int $humidity = null;
 
     public function getId(): ?int

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit WeatherData{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center">Edit WeatherData</h1>
+        {{ include('weather_data/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <div class="d-flex justify-content-between mt-2">
+            <a href="{{ path('app_weather_data_index') }}" class="btn btn-secondary">Back to list</a>
+            {{ include('weather_data/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
