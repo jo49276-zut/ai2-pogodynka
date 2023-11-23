@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}WeatherData Index{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center">WeatherData Index</h1>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Celsius</th>
+                <th>WindSpeed</th>
+                <th>Humidity</th>
+                <th>City</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for weather_datum in weather_datas %}
+                <tr>
+                    <td>{{ weather_datum.id }}</td>
+                    <td>{{ weather_datum.date ? weather_datum.date|date('Y-m-d') : '' }}</td>
+                    <td>{{ weather_datum.celsius }}</td>
+                    <td>{{ weather_datum.windSpeed }}</td>
+                    <td>{{ weather_datum.humidity }}</td>
+                    <td>
+                        {% if weather_datum.city and weather_datum.city.id %}
+                            {% if is_granted('ROLE_CITY_SHOW') %}
+                            <a href="{{ path('app_city_show', {'id': weather_datum.city.id}) }}">{{ weather_datum.city.name }}</a>
+                            {% endif %}
+                        {% else %}
+                            No City Assigned
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if is_granted('ROLE_WEATHERDATA_SHOW') %}
+                        <a href="{{ path('app_weather_data_show', {'id': weather_datum.id}) }}" class="btn btn-info btn-sm">Show</a>
+                        {% endif %}
+                        {% if is_granted('ROLE_WEATHERDATA_EDIT') %}
+                        <a href="{{ path('app_weather_data_edit', {'id': weather_datum.id}) }}" class="btn btn-primary btn-sm">Edit</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">No records found</td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+        {% if is_granted('ROLE_WEATHERDATA_NEW') %}
+        <a href="{{ path('app_weather_data_new') }}" class="btn btn-success">Create New</a><br>
+        {% endif %}
+        {% if is_granted('ROLE_CITY_INDEX') %}
+        <a href="{{ path('app_city_index') }}" class="btn btn-secondary mt-2">View Cities</a>
+        {% endif %}
+    </div>
+{% endblock %}

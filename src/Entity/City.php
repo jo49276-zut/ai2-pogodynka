@@ -6,6 +6,7 @@ use App\Repository\CityRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CityRepository::class)]
 class City
@@ -16,12 +17,17 @@ class City
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 6)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'float')]
     private ?float $latitude = null;
 
     #[ORM\Column(type: "decimal", precision: 10, scale: 6)]
+    #[Assert\NotBlank]
+    #[Assert\Type(type: 'float')]
     private ?float $longitude = null;
 
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: WeatherData::class)]
