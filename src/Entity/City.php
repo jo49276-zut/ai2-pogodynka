@@ -30,12 +30,24 @@ class City
     #[Assert\Type(type: 'float')]
     private ?float $longitude = null;
 
+    #[ORM\Column(type: "string", length: 2)]
+    private ?string $countryCode = null;
+
     #[ORM\OneToMany(mappedBy: 'city', targetEntity: WeatherData::class)]
     private Collection $weatherData;
 
     public function __construct()
     {
         $this->weatherData = new ArrayCollection();
+    }
+
+    public function getCountryCode(): ?string {
+        return $this->countryCode;
+    }
+
+    public function setCountryCode(string $countryCode): self {
+        $this->countryCode = $countryCode;
+        return $this;
     }
 
     public function getId(): ?int
