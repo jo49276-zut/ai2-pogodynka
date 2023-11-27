@@ -39,6 +39,10 @@ class WeatherData
     #[Assert\Type(type: 'integer')]
     private ?int $humidity = null;
 
+    public function getFahrenheit(): float {
+        return ($this->getCelsius() * 9 / 5) + 32;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
